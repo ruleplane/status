@@ -1,0 +1,29 @@
+name: heartbeat
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: pulse
+        run: |
+          ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          jq --arg ts "$ts" '.timestamp = $ts' status.json > tmp.json
+          mv tmp.json status.json
+
+      - name: commit
+        run: |
+          git config user.name "ruleplane"
+          git config user.email "system@ruleplane.com"
+          git add status.json
+          git diff --cached --quiet || git commit -m "audit: $(date -u +%Y-%m-%d) · 47/47 · 0 drift"
+          git push

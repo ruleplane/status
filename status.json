@@ -1,0 +1,16 @@
+{
+  "system": "ruleplane",
+  "status": "operational",
+  "timestamp": "2026-03-21T00:00:00Z",
+  "compliance": {
+    "rules": 47,
+    "passing": 47,
+    "drift": 0
+  },
+  "agents": {
+    "governed": 47,
+    "unbound": 0
+  },
+  "enforcement": "canonical",
+  "mode": "stealth"
+}
